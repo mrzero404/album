@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zero.mytime.dao.PhotoMapper">
+	<resultMap type="com.zero.mytime.damain.Photo" id="PhotoResultMap">
+		<result property="id" column="id"/>
+		<result property="name" column="name"/>
+		<result property="passWord" column="pwd"/>
+		<result property="image" column="image"/>
+	</resultMap>
+	
+	<insert id="insertPhoto" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO photo (path, album_id)VALUE(#{path},#{albumId})
+	</insert>
+	
+	<select id="selectPhoto"  resultMap="PhotoResultMap">
+		SELECT * FROM user WHERE name like 'dk'
+	</select>
+</mapper>

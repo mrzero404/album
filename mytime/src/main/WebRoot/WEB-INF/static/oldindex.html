@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html> 
+<head> 
+	<title></title> 
+	<style type="text/css">
+		table.hovertable {
+			font-family: verdana,arial,sans-serif;
+			font-size:11px;
+			color:#333333;
+			border-width: 1px;
+			border-color: #999999;
+			border-collapse: collapse;
+		}
+		table.hovertable th {
+			background-color:#c3dde0;
+			border-width: 1px;
+			padding: 8px;
+			border-style: solid;
+			border-color: #a9c6c9;
+		}
+		table.hovertable tr {
+			background-color:#d4e3e5;
+		}
+		table.hovertable td {
+			border-width: 1px;
+			padding: 8px;
+			border-style: solid;
+			border-color: #a9c6c9;
+		}
+	</style>
+    <script src="js/jquery-3.2.1.js"></script>
+</head> 
+
+<body>
+<form>
+是否加入复习计划
+<br/>
+<br/>
+<input id="yes" type="radio" name="select" value="yes" />是
+<input type="radio" name="select" value="no" checked/>否
+</form> 
+
+<input type="text"  id="te" >
+<input type="button" id="btn1" value="开始计时"  onclick="settime(this)" /> 
+<p id="p"></p>
+
+<script type="text/javascript"> 
+var startTime = null;
+var finishTime = null;
+var take = null;
+var onOff = true;
+var btn =document.getElementById("btn");
+var btn1 =document.getElementById("btn1");
+
+
+function settime(val) { 
+	if(onOff == true){
+		onOff = false;
+		startTime = new Date();
+		timer(val);
+	}else{
+		onOff = true;
+		send();
+		$("#btn1").attr("value","开始计时");
+		$("#te").val("");
+	}
+} 
+//获取并转化数据后提交
+function send() {
+	var toplan;
+	var name = document.getElementById("te").value;
+	if(document.getElementById("yes").checked){
+		toplan = '1';
+	} else {
+		toplan = '0';
+	}
+	//获取数据并提交
+	take=timeDifference(startTime);
+	startTime=timeFormat(startTime);
+	finishTime=timeFormat(finishTime);
+	var data = {"name":name,"startTime":startTime,"finishTime":finishTime,"take":take}
+	$.ajax({ 
+            type:"POST", 
+            url:"http://localhost:8080/mytime/addTomato", 
+            dataType:"json",      
+            contentType:"application/json",               
+            data:JSON.stringify(data), //转换成json格式，否则会报400错误
+            success:function(data){ 
+              getModuleInfo();               
+            },
+            error: function(data) {
+          		alert("加载失败");
+       		} 
+     });
+      
+     
+}
+
+
+/*计时器*/
+function timer(val){
+	//用于在指定的毫秒数后调用函数或计算表达式 
+	setTimeout(function() { 
+	//修改按钮文字 		
+	val.value="提交(" + timeDifference(startTime) + ")"; 
+	timer(val);
+	},1000) 
+}
+function timeDifference(startTime) {
+	var date1=startTime;  //开始时间
+	finishTime = new Date(); //结束时间
+	var date3 = finishTime.getTime()-date1.getTime()  //时间差的毫秒数
+	//计算出相差天数
+	var days=Math.floor(date3/(24*3600*1000))
+	//计算出小时数
+	var leave1=date3%(24*3600*1000)    //计算天数后剩余的毫秒数
+	var hours=Math.floor(leave1/(3600*1000))
+	//计算相差分钟数
+	var leave2=leave1%(3600*1000)        //计算小时数后剩余的毫秒数
+	var minutes=Math.floor(leave2/(60*1000))
+	//计算相差秒数
+	var leave3=leave2%(60*1000)      //计算分钟数后剩余的毫秒数
+	var seconds=Math.round(leave3/1000)
+	var timeDifference = null;
+	if(days>0) timeDifference = days+"天";
+	if(hours>0) timeDifference = timeDifference + hours+"小时";
+	if(minutes>0) timeDifference = timeDifference + minutes+"分钟";
+	timeDifference = timeDifference + seconds+"秒";
+	
+	return timeDifference;
+}
+//时间格式转化
+function timeFormat(myDate){
+	var month = myDate.getMonth()+1;
+	var date = myDate.getFullYear() + "-" + month + "-" + myDate.getDate();
+	var time = myDate.getHours() + ":" + myDate.getMinutes() + ":" + myDate.getSeconds();
+	return date + " " + time;
+}
+/*历时计数*/
+function takeCount(x,y){
+	var time = Array(0,0,0);
+	//用正则表达式提取出时分秒，再转化成数字与数组相加
+	var hourRegex = /\d+(?=小时)/;
+	var minRegex = /\d+(?=分钟)/;
+	var secondRegex = /\d+(?=秒)/;
+	if(typeof x ==='object'){
+		var hourSum =  Number(y.match(hourRegex));
+		var minSum =  Number(y.match(minRegex));
+		var secondSum =   Number(y.match(secondRegex));	
+		time[0] = time[0]+hourSum;
+		time[1] = time[1]+minSum;
+		time[2] = time[2]+secondSum;
+	}
+	if (typeof x ==='string') {
+		var hourSum =  Number(x.match(hourRegex)) + Number(y.match(hourRegex));
+		var minSum =  Number(x.match(minRegex)) + Number(y.match(minRegex));
+		var secondSum =   Number(x.match(secondRegex)) + Number(y.match(secondRegex));
+		time[0] = hourSum;
+		time[1] = minSum;
+		time[2] = secondSum;
+	}
+	return numToTake(time);	
+}
+/*把数字数组转换为时间字符串*/
+function numToTake(takeArray){
+	var takeTime = null;
+	//如果秒数大于等于60，分钟加上除以60的整数值，秒数则取余
+	if(takeArray[2]>=60){
+		takeArray[1] = takeArray[1] + parseInt(takeArray[2]/60);
+		takeArray[2] = takeArray[2]%60;
+	}
+	//如果分钟数大于等于60，小时数加上除以60的整数值，分钟数则取余
+	if(takeArray[1]>=60){
+		takeArray[0] =takeArray[0] + parseInt(takeArray[1]/60);
+		takeArray[1] = takeArray[1]%60;
+	}
+	//单位为0的不显示
+	if(takeArray[0]>0) takeTime = takeArray[0]+"小时";
+	if(takeArray[1]>0) takeTime = takeTime + takeArray[1]+"分钟";
+	takeTime = takeTime + takeArray[2]+"秒";
+	return takeTime;
+}
+/*任务分类*/
+function classify(obj){
+	var map = {};
+	if(obj.name in map){
+		map[obj.name] = takeCount(map[obj.name],obj.take);
+	}else{
+		map[obj.name]=obj.take;
+	}
+	return map;
+	}
+	/*获取当天数据并统计后展示*/
+function getModuleInfo() {
+	$.ajax({
+		type : "post",
+		dataType : "json",
+		contentType : "application/json",
+		url : "http://localhost:8080/mytime/getTodayTomatos",
+		success : function(json) {
+			var typeData = json.fitomatos;
+			var tbBody;
+			$("#tb  tr:not(:first)").html(""); //清空表格数据
+			$("#classfiy tr:not(:first)").html("");
+			var takeTime = null;
+			var map = {};
+			$.each(typeData, function(index, obj) {
+				takeTime = takeCount(takeTime, obj.take);
+				if (obj.name in map) {
+					map[obj.name] = takeCount(map[obj.name], obj.take);
+				} else {
+					map[obj.name] = obj.take;
+				}
+				tbBody = "<tr><td>" + obj.name + "</td>" + "<td>" + obj.take + "</td>" + "<td>" + obj.startTime + "</td>" + "<td>" + obj.finishTime + "</td></tr>";
+				$("#tb").append(tbBody);
+			});
+			for(var name in map){//遍历对象属性名  
+				tbBody = "<tr><td>" + name + "</td>" + "<td>" + map[name] +  "</td></tr>";
+			    $("#classfiy").append(tbBody);  
+			}
+			$("#takeTime").text("今天总的历时为" + takeTime);
+		},
+		error : function(json) {
+			alert("加载失败");
+		}
+	});
+}
+	$(function() {
+  getModuleInfo();
+});
+</script>
+今天已完成的任务：</br>
+<div id="fdw-pricing-table">
+<table class="hovertable" id="tb">
+	<tr>
+		<th>任务</th>
+		<th>历时</th>
+		<th>开始时间</th>
+		<th>结束时间</th>
+	</tr>	
+	<tr onmouseover="this.style.backgroundColor='#ffff66';" onmouseout="this.style.backgroundColor='#d4e3e5';">
+		<td>${fitomato.name}</td>
+		<td>${fitomato.take}</td>
+		<td>${fitomato.startTime}</td>
+		<td>${fitomato.finishTime}</td>
+	</tr>	
+</table>
+
+</br>
+分类统计：
+<table class="hovertable" id="classfiy">
+	<tr>
+		<th>任务</th>
+		<th>总历时</th>
+	</tr>
+</table>
+<br>	
+<p id="takeTime"></p>
+今天需要复习的任务：
+</div>
+</body> 
+</html> 

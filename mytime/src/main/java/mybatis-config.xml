@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- 指定MyBatis所用日志的具体实现 -->
+	<settings>
+		<setting name="logImpl" value="LOG4J"/>
+	</settings>
+	<!-- 环境配置，即连接的数据库 
+	<environments default="mysql">
+		<environment id="mysql">
+			<transactionManager type="JDBC"/>
+			<dataSource type="POOLED">
+				<property name="driver" value="com.mysql.jdbc.Driver"/>
+				<property name="url" value="jdbc:mysql://localhost:3306/tomatodb?useUnicode=true&amp;characterEncoding=UTF-8&amp;useSSL=true"/>
+				<property name="username" value="root"/>
+				<property name="password" value="123456"/>
+			</dataSource>
+		</environment>
+	</environments>-->
+	<!-- 指定去哪里找持久化类的映射文件 -->
+	<mappers>
+		<mapper resource="com/zero/mytime/dao/TomatoMapper.xml"/>
+		<mapper resource="com/zero/mytime/dao/UserMapper.xml"/>
+		<mapper resource="com/zero/mytime/dao/AlbumMapper.xml"/>
+		<mapper resource="com/zero/mytime/dao/PhotoMapper.xml"/>
+	</mappers>
+</configuration>
