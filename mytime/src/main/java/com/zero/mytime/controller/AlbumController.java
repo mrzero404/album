@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zero.mytime.damain.Album;
 import com.zero.mytime.dao.AlbumDao;
+import com.zero.mytime.service.AlbumService;
 
 @Controller
 public class AlbumController {
@@ -26,6 +27,8 @@ public class AlbumController {
 	@Autowired
 	private AlbumDao albumDao;
 	
+	@Autowired
+	private AlbumService albumService;
 	
 	/*
 	 *添加相册 
@@ -90,6 +93,8 @@ public class AlbumController {
 		System.out.println("进入添加相册");
 		retMap.put("code", "10000");
 		retMap.put("getAlbumForTime", albumDao.getAlbumForTime());
+		retMap.put("count", albumService.selectCount());
+		retMap.put("page", albumService.findByPage(1));
 		return new ResponseEntity<Map<String, Object>>(retMap, HttpStatus.OK);
 	}
 	

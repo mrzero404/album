@@ -1,5 +1,6 @@
 package com.zero.mytime.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -38,6 +39,16 @@ public class AlbumDaoImpl extends SqlSessionDaoSupport implements AlbumDao {
 	@Override
 	public List<Album> getAlbumForTime() {
 		return this.getSqlSession().selectList("com.zero.mytime.dao.AlbumMapper.selectByTime");
+	}
+
+	@Override
+	public List<Album> findByPage(HashMap<String, Object> map) {
+		return this.getSqlSession().selectList("com.zero.mytime.dao.AlbumMapper.findByPage",map);
+	}
+
+	@Override
+	public int selectCount() {
+		return this.getSqlSession().selectOne("com.zero.mytime.dao.AlbumMapper.selectCount");
 	}
 
 }

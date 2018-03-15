@@ -3,12 +3,23 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zero.mytime.dao.AlbumMapper">
 	<resultMap id="AlbumResultMap" type="com.zero.mytime.damain.Album">
-		<result property="id" column="id"/>
-		<result property="name" column="name"/>
-		<result property="userId" column="user_id"/>
+		<result property="id" column="id" jdbcType="INTEGER"/>
+		<result property="name" column="name" jdbcType="VARCHAR"/>
+		<result property="userId" column="user_id" jdbcType="VARCHAR"/>
+		<result property="description" column="description" jdbcType="VARCHAR"/>
+		<result property="model" column="model" jdbcType="VARCHAR"/>
+		<result property="cover" column="cover" jdbcType="VARCHAR"/>
+		<result property="music" column="music" jdbcType="VARCHAR"/>
+		<result property="createTime" column="create_time" jdbcType="VARCHAR"/>
+		<result property="updateTime" column="update_time" jdbcType="VARCHAR"/>
+		<result property="visitor" column="visitor" jdbcType="VARCHAR"/>
 	</resultMap>
 	
-	<!-- 添加项目 -->
+	<sql id="Base_Column_List">
+        id, name, user_id, description, model, cover, music, create_time, update_time, visitor
+    </sql>
+    
+	<!-- 添加相册 -->
 	<insert id="insertAlbum" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO album (name, user_id, create_time)VALUE(#{name}, #{userId}, #{createTime})
 	</insert>
@@ -27,4 +38,19 @@
 	<delete id="removeAlbum">
 		DELETE FROM album WHERE id = #{id}
 	</delete>	
+	
+	<!-- 查询相册记录总数 -->
+    <select id="selectCount" resultType="int">
+        select count(*) from album
+    </select>
+    
+	<!-- 根据分页数据start 和size查询数据 -->
+    <select id="findByPage" parameterType="Map" resultMap="AlbumResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from album
+        <if test="start!=null and size!=null">
+            limit #{start},#{size}
+        </if>
+    </select>
 </mapper>

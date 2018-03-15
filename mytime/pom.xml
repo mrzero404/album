@@ -28,7 +28,7 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
-     <!-- spring核心包 -->
+    <!-- spring核心包 -->
     <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-core</artifactId>
