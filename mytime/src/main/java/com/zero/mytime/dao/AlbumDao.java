@@ -11,6 +11,6 @@ public interface AlbumDao {
 	
 	public void removeAlbum(Integer id);
 	
-	public List<Album> getAlbums(Integer userId);
+	public List<Album> getAlbumForId(Integer userId);
 
 }

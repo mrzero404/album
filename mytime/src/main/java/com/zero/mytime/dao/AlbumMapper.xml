@@ -2,18 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zero.mytime.dao.AlbumMapper">
-	<resultMap type="com.zero.mytime.damain.User" id="AlbumResultMap">
+	<resultMap id="AlbumResultMap" type="com.zero.mytime.damain.Album">
 		<result property="id" column="id"/>
 		<result property="name" column="name"/>
-		<result property="passWord" column="pwd"/>
-		<result property="image" column="image"/>
+		<result property="userId" column="user_id"/>
 	</resultMap>
 	
+	<!--  -->
 	<insert id="insertAlbum" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO album (name, user_id)VALUE(#{name},#{userId})
 	</insert>
 	
+	<!-- 根据用户ID获取相册  -->
 	<select id="selectAlbum"  resultMap="AlbumResultMap">
-		SELECT * FROM album WHERE name like 'dk'
+		SELECT id, name, user_id FROM album WHERE user_id = #{id}
 	</select>
+	
+	<!--  -->
+	<delete id="removeAlbum">
+		DELETE FROM album WHERE id = #{id}
+	</delete>	
 </mapper>

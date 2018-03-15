@@ -27,11 +27,11 @@ public class AlbumDaoImpl extends SqlSessionDaoSupport implements AlbumDao {
 
 	@Override
 	public void removeAlbum(Integer id) {
-		this.getSqlSession().delete("com.zero.mytime.dao.AlbumMapper.delectAlbum",id);
+		this.getSqlSession().delete("com.zero.mytime.dao.AlbumMapper.removeAlbum",id);
 	}
 
 	@Override
-	public List<Album> getAlbums(Integer userId) {
+	public List<Album> getAlbumForId(Integer userId) {
 		return this.getSqlSession().selectList("com.zero.mytime.dao.AlbumMapper.selectAlbum",userId);
 	}
 
