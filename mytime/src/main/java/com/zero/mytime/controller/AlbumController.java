@@ -88,7 +88,8 @@ public class AlbumController {
 	public ResponseEntity<?> getAlbumForTime(@RequestBody Album album){
 		Map retMap = new HashMap();
 		System.out.println("进入添加相册");
-		albumDao.addAlbum(album);
+		retMap.put("code", "10000");
+		retMap.put("getAlbumForTime", albumDao.getAlbumForTime());
 		return new ResponseEntity<Map<String, Object>>(retMap, HttpStatus.OK);
 	}
 	

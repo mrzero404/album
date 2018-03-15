@@ -32,7 +32,12 @@ public class AlbumDaoImpl extends SqlSessionDaoSupport implements AlbumDao {
 
 	@Override
 	public List<Album> getAlbumForId(Integer userId) {
-		return this.getSqlSession().selectList("com.zero.mytime.dao.AlbumMapper.selectAlbum",userId);
+		return this.getSqlSession().selectList("com.zero.mytime.dao.AlbumMapper.selectById",userId);
+	}
+
+	@Override
+	public List<Album> getAlbumForTime() {
+		return this.getSqlSession().selectList("com.zero.mytime.dao.AlbumMapper.selectByTime");
 	}
 
 }

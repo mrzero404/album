@@ -12,5 +12,7 @@ public interface AlbumDao {
 	public void removeAlbum(Integer id);
 	
 	public List<Album> getAlbumForId(Integer userId);
+	
+	public List<Album> getAlbumForTime();
 
 }
