@@ -28,7 +28,7 @@ public class AlbumServiceImpl implements AlbumService{
 	}
 	
 	@Override
-	public PageBean<Album> findByPage(int currentPage) {
+	public PageBean<Album> findByPage(int currentPage, String time) {
 		HashMap<String,Object> map = new HashMap<String,Object>();
         PageBean<Album> pageBean = new PageBean<Album>();
 
@@ -36,7 +36,7 @@ public class AlbumServiceImpl implements AlbumService{
         pageBean.setCurrPage(currentPage);
 
         //每页显示的数据
-        int pageSize=2;
+        int pageSize=5;
         pageBean.setPageSize(pageSize);
 
         //封装总记录数
@@ -48,7 +48,7 @@ public class AlbumServiceImpl implements AlbumService{
         Double num =Math.ceil(tc/pageSize);//向上取整
         pageBean.setTotalPage(num.intValue());
 
-        map.put("start",(currentPage-1)*pageSize);
+        map.put("start",(currentPage-1) * pageSize + albumDao.selectNewCount(time));
         map.put("size", pageBean.getPageSize());
         //封装每页显示的数据
         List<Album> lists = albumDao.findByPage(map);

@@ -88,13 +88,13 @@ public class AlbumController {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@ResponseBody  
 	@RequestMapping(value="/getAlbumForTime", method = RequestMethod.POST)
-	public ResponseEntity<?> getAlbumForTime(@RequestBody Album album){
+	public ResponseEntity<?> getAlbumByTime(@RequestBody Integer page, String time){
 		Map retMap = new HashMap();
 		System.out.println("进入添加相册");
 		retMap.put("code", "10000");
 		retMap.put("getAlbumForTime", albumDao.getAlbumForTime());
 		retMap.put("count", albumService.selectCount());
-		retMap.put("page", albumService.findByPage(1));
+		retMap.put("page", albumService.findByPage(page, time));
 		return new ResponseEntity<Map<String, Object>>(retMap, HttpStatus.OK);
 	}
 	

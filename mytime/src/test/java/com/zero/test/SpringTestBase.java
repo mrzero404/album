@@ -4,7 +4,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-@ContextConfiguration(locations = { "classpath:Application-Redis.xml" })
+@ContextConfiguration(locations = { "classpath:spring/springmvc-config.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)
 public class SpringTestBase extends AbstractJUnit4SpringContextTests {
 }

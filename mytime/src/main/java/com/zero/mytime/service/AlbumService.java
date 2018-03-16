@@ -7,5 +7,5 @@ public interface AlbumService {
 
 	public int selectCount();
 	
-	public PageBean<Album> findByPage(int currentPage);
+	public PageBean<Album> findByPage(int currentPage, String time);
 }

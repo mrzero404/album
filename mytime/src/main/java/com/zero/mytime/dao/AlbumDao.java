@@ -23,6 +23,12 @@ public interface AlbumDao {
 	public int selectCount();
 	
 	/**
+	 * 查询用户查询后新增记录总数
+	 * @return
+	 */
+	public int selectNewCount(String time);
+	
+	/**
      * 分页操作，调用findByPage limit分页方法
      * @param map
      * @return

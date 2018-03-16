@@ -44,6 +44,11 @@
         select count(*) from album
     </select>
     
+    <!-- 查询用户查询后新增记录总数 -->
+    <select id="selectNewCount" resultType="int">
+        select count(*) from album where create_time > #{createTime}
+    </select>
+    
 	<!-- 根据分页数据start 和size查询数据 -->
     <select id="findByPage" parameterType="Map" resultMap="AlbumResultMap">
         select

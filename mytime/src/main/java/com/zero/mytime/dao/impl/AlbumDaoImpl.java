@@ -51,4 +51,9 @@ public class AlbumDaoImpl extends SqlSessionDaoSupport implements AlbumDao {
 		return this.getSqlSession().selectOne("com.zero.mytime.dao.AlbumMapper.selectCount");
 	}
 
+	@Override
+	public int selectNewCount(String time) {
+		return this.getSqlSession().selectOne("com.zero.mytime.dao.AlbumMapper.selectNewCount",time);
+	}
+
 }

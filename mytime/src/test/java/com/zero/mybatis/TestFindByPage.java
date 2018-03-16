@@ -13,7 +13,7 @@ import com.zero.mytime.service.AlbumService;
 import com.zero.mytime.util.PageBean;
 import com.zero.test.SpringTestBase;
 
-public class TestMybatis extends SpringTestBase{
+public class TestFindByPage extends SpringTestBase{
 
 	@Autowired
 	private AlbumService albumService;
@@ -25,7 +25,7 @@ public class TestMybatis extends SpringTestBase{
 	public void testFindByPage() {
 		System.out.println("总记录数：" + albumService.selectCount());
 		PageBean<Album> lists = new PageBean<Album>();
-		lists = albumService.findByPage(5,"2017-3-18 17:12");
+		lists = albumService.findByPage(6,"2017-3-18 17:12");
 		List<Album> list = lists.getLists();
 		Iterator<Album> it = list.iterator();
 		while (it.hasNext()) {
@@ -34,8 +34,4 @@ public class TestMybatis extends SpringTestBase{
 		}
 	}
 	
-	@Test
-	public void testSelectNewCount() {
-		System.out.println("新增总记录数：" + albumDao.selectNewCount("2017-3-18 17:12"));
-	}
 }
