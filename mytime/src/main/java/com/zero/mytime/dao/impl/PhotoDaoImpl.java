@@ -1,5 +1,8 @@
 package com.zero.mytime.dao.impl;
 
+import java.util.HashMap;
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,5 +30,24 @@ public class PhotoDaoImpl extends SqlSessionDaoSupport implements PhotoDao {
 	public void removePhoto(Integer id) {
 
 	}
+
+	@Override
+	public List<Photo> getPhotoByAlbumId(Integer albumId) {
+		return this.getSqlSession().selectList("com.zero.mytime.dao.PhotoMapper.selectByAlbumId",albumId);
+	}
+
+	@Override
+	public int editPhotoOrder(Photo photo) {
+		return this.getSqlSession().update("com.zero.mytime.dao.PhotoMapper.updateOrderById", photo);
+	}
+
+	@Override
+	public void deletePhotoById(Integer id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
+
 
 }

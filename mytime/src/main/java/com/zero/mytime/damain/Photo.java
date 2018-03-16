@@ -6,13 +6,23 @@ public class Photo {
 	
 	private Integer albumId;
 	
+	private Integer orders;
+	
 	private String path;
 
-	private String descriprion;
+	private String description;
 
 	private String createTime;
 	
 	private String updateTime;
+	
+	public Integer getOrders() {
+		return orders;
+	}
+
+	public void setOrders(Integer orders) {
+		this.orders = orders;
+	}
 
 	public Integer getId() {
 		return id;
@@ -38,12 +48,12 @@ public class Photo {
 		this.path = path;
 	}
 
-	public String getDescriprion() {
-		return descriprion;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setDescriprion(String descriprion) {
-		this.descriprion = descriprion;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public String getCreateTime() {
@@ -62,6 +72,10 @@ public class Photo {
 		this.updateTime = updateTime;
 	}
 
+	@Override
+    public String toString() {
+        return "Album [id=" + id + ", albumId=" + albumId + ",path = " + path  + ",description = " + description + "]";
+    }
 	
 
 

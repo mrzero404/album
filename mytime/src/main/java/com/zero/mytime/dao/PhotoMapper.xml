@@ -3,17 +3,33 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zero.mytime.dao.PhotoMapper">
 	<resultMap type="com.zero.mytime.damain.Photo" id="PhotoResultMap">
-		<result property="id" column="id"/>
-		<result property="name" column="name"/>
-		<result property="passWord" column="pwd"/>
-		<result property="image" column="image"/>
+		<result property="id" column="id" jdbcType="INTEGER"/>
+		<result property="albumId" column="album_id" jdbcType="INTEGER"/>
+		<result property="orders" column="orders" jdbcType="INTEGER"/>
+		<result property="path" column="path" jdbcType="VARCHAR"/>
+		<result property="description" column="description" jdbcType="VARCHAR"/>
 	</resultMap>
 	
+	<!-- 添加图片  -->
 	<insert id="insertPhoto" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO photo (path, album_id)VALUE(#{path},#{albumId})
+		INSERT INTO photo (path, album_id, orders)VALUE(#{path},#{albumId},#{orders})
 	</insert>
 	
-	<select id="selectPhoto"  resultMap="PhotoResultMap">
-		SELECT * FROM user WHERE name like 'dk'
+	<!-- 根据相册ID获取图片  -->
+	<select id="selectByAlbumId"  resultMap="PhotoResultMap">
+		SELECT id, album_id, orders, path, description FROM photo WHERE album_id = #{albumId} ORDER BY orders
 	</select>
+	
+	<!-- 更改图片在相册的顺序  -->
+	<update id="updateOrderById" parameterType="com.zero.mytime.damain.Photo">
+		update photo
+		set
+		orders = #{orders}
+        WHERE ID=#{id}
+	</update>
+	
+	<!-- 添加图片  -->
+	<delete id="deletePhotoById">
+		delete from photo where id = #{id}
+	</delete>
 </mapper>

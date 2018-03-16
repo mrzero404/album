@@ -102,10 +102,10 @@ public class Album {
 		this.visitor = visitor;
 	}
 	
-	 @Override
-	    public String toString() {
-	        return "Album [id=" + id + ", name=" + name + ",userId = " + userId  + ",createTime = " + createTime + "]";
-	    }    
+	@Override
+    public String toString() {
+        return "Album [id=" + id + ", name=" + name + ",userId = " + userId  + ",createTime = " + createTime + "]";
+    }    
 	
 	
 }
