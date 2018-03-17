@@ -1,6 +1,5 @@
 package com.zero.mybatis.photo;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -12,7 +11,7 @@ import com.zero.mytime.photo.dao.PhotoDao;
 import com.zero.mytime.photo.service.PhotoService;
 import com.zero.test.SpringTestBase;
 
-public class updatePhotoOrderById extends SpringTestBase{
+public class DeletePhotoById extends SpringTestBase{
 
 	@Autowired
 	private PhotoService photoService;
@@ -21,10 +20,8 @@ public class updatePhotoOrderById extends SpringTestBase{
 	private PhotoDao photoDao;
 	
 	@Test
-	public void updatePhotoOrderById() {
-		HashMap<String,Object> map = new HashMap<String,Object>();
-		
-		
+	public void deletePhotoById() {
+		photoDao.deletePhotoById(3);
 	}
 	
 }

@@ -7,9 +7,9 @@ import java.util.List;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.zero.mytime.damain.Album;
-import com.zero.mytime.dao.AlbumDao;
-import com.zero.mytime.service.AlbumService;
+import com.zero.mytime.album.damain.Album;
+import com.zero.mytime.album.dao.AlbumDao;
+import com.zero.mytime.album.service.AlbumService;
 import com.zero.mytime.util.PageBean;
 import com.zero.test.SpringTestBase;
 

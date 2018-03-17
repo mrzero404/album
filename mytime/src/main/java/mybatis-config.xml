@@ -20,9 +20,8 @@
 	</environments>-->
 	<!-- 指定去哪里找持久化类的映射文件 -->
 	<mappers>
-		<mapper resource="com/zero/mytime/dao/TomatoMapper.xml"/>
-		<mapper resource="com/zero/mytime/dao/UserMapper.xml"/>
-		<mapper resource="com/zero/mytime/dao/AlbumMapper.xml"/>
-		<mapper resource="com/zero/mytime/dao/PhotoMapper.xml"/>
+		<mapper resource="com/zero/mytime/user/dao/UserMapper.xml"/>
+		<mapper resource="com/zero/mytime/album/dao/AlbumMapper.xml"/>
+		<mapper resource="com/zero/mytime/photo/dao/PhotoMapper.xml"/>
 	</mappers>
 </configuration>
